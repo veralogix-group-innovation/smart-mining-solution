@@ -1,5 +1,7 @@
 # Veralogix Group SA — Smart Mining Solution
 
+<a href="https://freeimage.host/"><img src="https://iili.io/F5mGF24.png" alt="F5mGF24.png" border="0" /></a>
+
 Welcome to the official GitHub repository for the **Smart Mining Solution** website by **Veralogix Group SA**.  
 This repository powers a public-facing GitHub Pages site that showcases how Veralogix is building **safer, smarter and more efficient mines** using data, automation, and AI-driven decision support across South Africa.
 
