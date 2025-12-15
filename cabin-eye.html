@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CABIN-EYE™ | Veralogix Smart Mining Solutions</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1A1A1A;
+            color: #CCCCCC;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .btn-primary {
+            background-color: #BFFF00;
+            color: #1A1A1A;
+            font-weight: 700;
+        }
+        .btn-primary:hover {
+            background-color: #d8ff66;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="bg-[#1A1A1A]/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 border-b border-gray-800">
+        <div class="w-full px-8 py-6 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html">
+                    <img src="https://iili.io/F5mGF24.png" alt="Veralogix Logo" class="h-20 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/320x80/1A1A1A/FFFFFF?text=Veralogix';">
+                </a>
+            </div>
+            <nav class="hidden md:flex items-center space-x-12">
+                <a href="index.html" class="text-gray-300 hover:text-[#BFFF00] transition-colors duration-300 font-heading text-xl">← BACK TO HOME</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-32">
+        <!-- Hero Section -->
+        <section class="py-20 bg-[#1E1E1E]">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-6xl text-white mb-6 fade-in font-heading">CABIN-EYE™</h1>
+                    <h2 class="text-2xl md:text-3xl text-[#BFFF00] mb-6 fade-in font-heading">THE INTERNAL GUARDIAN</h2>
+                    <p class="text-xl text-gray-400 max-w-4xl mx-auto fade-in">A proactive layer of defense using ruggedized, in-cab camera technology to monitor operator alertness and prevent fatigue-related incidents in mining operations.</p>
+                </div>
+                <div class="text-center fade-in">
+                    <img src="https://iili.io/F77FiyF.png" alt="Cabin-Eye Technology" class="w-full max-w-4xl mx-auto border-4 border-gray-800" onerror="this.onerror=null;this.src='https://placehold.co/800x500/1E1E1E/FFFFFF?text=Cabin-Eye+Technology';">
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Benefits Section -->
+        <section class="py-20 bg-[#222222]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">WHY CABIN-EYE™ IS CRITICAL</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-[#1A1A1A] p-8 border border-gray-800 fade-in">
+                        <div class="text-[#BFFF00] text-4xl mb-4">😴</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">PROACTIVE FATIGUE MANAGEMENT</h3>
+                        <p class="text-gray-400">Long shifts are a reality of mining. Cabin-Eye™ provides a critical layer of defense, using advanced eye-scanning technology to monitor operators for signs of fatigue or distraction, helping you achieve your zero-harm targets.</p>
+                    </div>
+                    <div class="bg-[#1A1A1A] p-8 border border-gray-800 fade-in">
+                        <div class="text-[#BFFF00] text-4xl mb-4">⚠️</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">MITIGATE REAL-WORLD RISK</h3>
+                        <p class="text-gray-400">Fatigue is a major contributor to accidents. This system ensures every operator is fit for duty, preventing incidents before they happen in the dynamic environment of an open-cast pit.</p>
+                    </div>
+                    <div class="bg-[#1A1A1A] p-8 border border-gray-800 fade-in">
+                        <div class="text-[#BFFF00] text-4xl mb-4">📊</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">ACTIONABLE SAFETY DATA</h3>
+                        <p class="text-gray-400">The system doesn't just prevent accidents; it provides invaluable data on near-misses, allowing you to identify high-risk areas or behaviors and intervene with targeted training or operational changes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Deep Dive -->
+        <section class="py-20 bg-[#1E1E1E]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">HOW CABIN-EYE™ WORKS</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">ADVANCED MONITORING TECHNOLOGY</h3>
+                        <div class="space-y-6">
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <h4 class="font-heading text-lg text-white mb-3">EYE TRACKING & ANALYSIS</h4>
+                                <p class="text-gray-400">Sophisticated computer vision algorithms track eye movement patterns, blink rates, and gaze direction. Detects microsleep episodes, distraction, and fatigue indicators in real-time.</p>
+                            </div>
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <h4 class="font-heading text-lg text-white mb-3">FACIAL RECOGNITION SYSTEM</h4>
+                                <p class="text-gray-400">Advanced facial analysis monitors head position, facial expressions, and alertness levels. Identifies when operators are not facing forward or showing signs of impairment.</p>
+                            </div>
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <h4 class="font-heading text-lg text-white mb-3">REAL-TIME ALERTS</h4>
+                                <p class="text-gray-400">Immediate audio and visual warnings alert operators when fatigue or distraction is detected. Escalating alert system ensures appropriate response to different risk levels.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in">
+                        <div class="bg-[#222222] p-8 border border-gray-800">
+                            <h3 class="font-heading text-2xl text-[#BFFF00] mb-6 text-center">SYSTEM CAPABILITIES</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span class="text-white font-semibold">Detection Accuracy:</span>
+                                    <span class="text-[#BFFF00] font-bold">95%+</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span class="text-white font-semibold">Response Time:</span>
+                                    <span class="text-[#BFFF00] font-bold">&lt;2 seconds</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span class="text-white font-semibold">Operating Conditions:</span>
+                                    <span class="text-[#BFFF00] font-bold">Day/Night</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span class="text-white font-semibold">Camera Resolution:</span>
+                                    <span class="text-[#BFFF00] font-bold">HD 1080p</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span class="text-white font-semibold">Data Storage:</span>
+                                    <span class="text-[#BFFF00] font-bold">30+ Days</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-white font-semibold">Installation Time:</span>
+                                    <span class="text-[#BFFF00] font-bold">2-4 Hours</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detection Features -->
+        <section class="py-20 bg-[#222222]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">COMPREHENSIVE DETECTION CAPABILITIES</h2>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">FATIGUE INDICATORS</h3>
+                        <div class="space-y-4">
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-[#BFFF00] text-2xl">👁️</div>
+                                    <div>
+                                        <h4 class="text-white font-semibold mb-2">Microsleep Detection</h4>
+                                        <p class="text-gray-400">Identifies brief episodes of sleep lasting 1-30 seconds</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-[#BFFF00] text-2xl">😑</div>
+                                    <div>
+                                        <h4 class="text-white font-semibold mb-2">Slow Blink Rate</h4>
+                                        <p class="text-gray-400">Monitors blink frequency and duration patterns</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-[#BFFF00] text-2xl">😵</div>
+                                    <div>
+                                        <h4 class="text-white font-semibold mb-2">Head Nodding</h4>
+                                        <p class="text-gray-400">Detects involuntary head movements indicating drowsiness</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-[#BFFF00] text-2xl">👀</div>
+                                    <div>
+                                        <h4 class="text-white font-semibold mb-2">Eye Closure Duration</h4>
+                                        <p class="text-gray-400">Measures extended eye closure periods beyond normal blinking</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">DISTRACTION MONITORING</h3>
+                        <div class="space-y-4">
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-[#BFFF00] text-2xl">📱</div>
+                                    <div>
+                                        <h4 class="text-white font-semibold mb-2">Mobile Phone Usage</h4>
+                                        <p class="text-gray-400">Detects when operators are using mobile devices</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-[#BFFF00] text-2xl">↩️</div>
+                                    <div>
+                                        <h4 class="text-white font-semibold mb-2">Looking Away</h4>
+                                        <p class="text-gray-400">Monitors gaze direction and alerts when not focused forward</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-[#BFFF00] text-2xl">🚫</div>
+                                    <div>
+                                        <h4 class="text-white font-semibold mb-2">Operator Absence</h4>
+                                        <p class="text-gray-400">Detects when no operator is present in the driver's seat</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-[#BFFF00] text-2xl">🕶️</div>
+                                    <div>
+                                        <h4 class="text-white font-semibold mb-2">Sunglasses Detection</h4>
+                                        <p class="text-gray-400">Adapts monitoring algorithms for operators wearing sunglasses</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Safety Impact -->
+        <section class="py-20 bg-[#1E1E1E]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">PROVEN SAFETY IMPACT</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in text-center">
+                        <div class="text-[#BFFF00] text-5xl font-bold mb-4">75%</div>
+                        <h3 class="font-heading text-xl text-white mb-4">INCIDENT REDUCTION</h3>
+                        <p class="text-gray-400">Documented reduction in fatigue-related incidents across mining operations using Cabin-Eye™ technology.</p>
+                    </div>
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in text-center">
+                        <div class="text-[#BFFF00] text-5xl font-bold mb-4">24/7</div>
+                        <h3 class="font-heading text-xl text-white mb-4">CONTINUOUS MONITORING</h3>
+                        <p class="text-gray-400">Round-the-clock operator monitoring across all shifts, ensuring consistent safety standards regardless of time or conditions.</p>
+                    </div>
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in text-center">
+                        <div class="text-[#BFFF00] text-5xl font-bold mb-4">R10M+</div>
+                        <h3 class="font-heading text-xl text-white mb-4">COST AVOIDANCE</h3>
+                        <p class="text-gray-400">Potential cost savings from preventing major accidents, equipment damage, and regulatory penalties through proactive monitoring.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Integration & Analytics -->
+        <section class="py-20 bg-[#222222]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">SMART HUB INTEGRATION & ANALYTICS</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">COMPREHENSIVE REPORTING</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">📈</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Fatigue Trend Analysis</h4>
+                                    <p class="text-gray-400">Track fatigue patterns across shifts, operators, and time periods to identify risk factors</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">👤</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Individual Operator Profiles</h4>
+                                    <p class="text-gray-400">Personalized fatigue profiles help identify operators who may need additional support</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">⚡</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Real-Time Dashboards</h4>
+                                    <p class="text-gray-400">Live monitoring of all operators across the fleet with instant alert notifications</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">PREDICTIVE INSIGHTS</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">🔮</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Risk Prediction</h4>
+                                    <p class="text-gray-400">Machine learning algorithms predict high-risk periods and operators</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">📊</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Performance Correlation</h4>
+                                    <p class="text-gray-400">Link fatigue data with productivity metrics to optimize shift scheduling</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">🎯</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Targeted Interventions</h4>
+                                    <p class="text-gray-400">Data-driven recommendations for training, scheduling, and wellness programs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Section -->
+        <section class="py-20 bg-[#1E1E1E]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">IMPLEMENTATION & SUPPORT</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in text-center">
+                        <div class="text-[#BFFF00] text-5xl mb-4">🔧</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">QUICK INSTALLATION</h3>
+                        <p class="text-gray-400">Professional installation in 2-4 hours per vehicle. Minimal downtime with ruggedized components designed for harsh mining environments.</p>
+                    </div>
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in text-center">
+                        <div class="text-[#BFFF00] text-5xl mb-4">👥</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">OPERATOR ACCEPTANCE</h3>
+                        <p class="text-gray-400">Comprehensive change management program ensures operator buy-in and understanding of safety benefits rather than surveillance concerns.</p>
+                    </div>
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in text-center">
+                        <div class="text-[#BFFF00] text-5xl mb-4">🛡️</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">PRIVACY PROTECTION</h3>
+                        <p class="text-gray-400">Advanced privacy controls ensure operator data is protected while maintaining safety monitoring capabilities. Full compliance with data protection regulations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-[#222222]">
+            <div class="container mx-auto px-4 text-center">
+                <div class="bg-[#1A1A1A] p-12 max-w-4xl mx-auto border border-[#BFFF00]/20 fade-in">
+                    <h2 class="text-3xl md:text-4xl text-white mb-6 font-heading">READY TO ENHANCE OPERATOR SAFETY?</h2>
+                    <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">Join mining operations worldwide who trust Cabin-Eye™ to protect their most valuable asset - their people - through advanced fatigue and distraction monitoring.</p>
+                    <div class="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center">
+                        <a href="index.html#contact" class="btn-primary px-8 py-4 hover:bg-[#d8ff66] transition-all duration-300 transform hover:scale-105 inline-block font-heading">GET A QUOTE</a>
+                        <a href="index.html#pilot" class="bg-[#2D2D2D] text-[#CCCCCC] px-8 py-4 hover:bg-[#3f3f3f] transition-all duration-300 inline-block font-heading">SCHEDULE DEMO</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black py-8">
+        <div class="container mx-auto px-4 text-center text-gray-500">
+            <p>&copy; 2025 Veralogix Group. All rights reserved.</p>
+            <p class="text-sm mt-2">Joining The Dots.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faders = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            faders.forEach(fader => observer.observe(fader));
+        });
+    </script>
+</body>
+</html>

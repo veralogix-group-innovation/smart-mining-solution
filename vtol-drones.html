@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VTOL DRONES™ | Veralogix Smart Mining Solutions</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1A1A1A;
+            color: #CCCCCC;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .btn-primary {
+            background-color: #BFFF00;
+            color: #1A1A1A;
+            font-weight: 700;
+        }
+        .btn-primary:hover {
+            background-color: #d8ff66;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="bg-[#1A1A1A]/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-50 border-b border-gray-800">
+        <div class="w-full px-8 py-6 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html">
+                    <img src="https://iili.io/F5mGF24.png" alt="Veralogix Logo" class="h-20 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/320x80/1A1A1A/FFFFFF?text=Veralogix';">
+                </a>
+            </div>
+            <nav class="hidden md:flex items-center space-x-12">
+                <a href="index.html" class="text-gray-300 hover:text-[#BFFF00] transition-colors duration-300 font-heading text-xl">← BACK TO HOME</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-32">
+        <!-- Hero Section -->
+        <section class="py-20 bg-[#222222]">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h1 class="text-4xl md:text-6xl text-white mb-6 fade-in font-heading">VTOL DRONES™</h1>
+                    <h2 class="text-2xl md:text-3xl text-[#BFFF00] mb-6 fade-in font-heading">YOUR EYE IN THE SKY</h2>
+                    <p class="text-xl text-gray-400 max-w-4xl mx-auto fade-in">Automate dull, dangerous, and dirty jobs with advanced Vertical Take-Off and Landing drones that provide a complete, intelligent view of the mine.</p>
+                </div>
+                <div class="text-center fade-in">
+                    <img src="https://iili.io/F77F43B.png" alt="ARACE ROC Pro VTOL Drone" class="w-full max-w-4xl mx-auto border-4 border-gray-800" onerror="this.onerror=null;this.src='https://placehold.co/800x500/222222/FFFFFF?text=VTOL+Drone';">
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Benefits Section -->
+        <section class="py-20 bg-[#1E1E1E]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">WHY VTOL DRONES™ ARE ESSENTIAL</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in">
+                        <div class="text-[#BFFF00] text-4xl mb-4">📈</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">ACCELERATED SALES & PLANNING</h3>
+                        <p class="text-gray-400">Conduct stockpile surveys 95% faster to provide near real-time data to your commercial team. Transform weeks of manual surveying into hours of automated data collection.</p>
+                    </div>
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in">
+                        <div class="text-[#BFFF00] text-4xl mb-4">🛡️</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">PROACTIVE SITE SECURITY</h3>
+                        <p class="text-gray-400">Patrol vast perimeters more effectively than ground crews to detect theft, illegal mining, and security breaches as they happen. Cover 10x more ground with 24/7 capability.</p>
+                    </div>
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in">
+                        <div class="text-[#BFFF00] text-4xl mb-4">🌱</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">ENHANCED ENVIRONMENTAL COMPLIANCE</h3>
+                        <p class="text-gray-400">Use for pre-and-post-blast surveys, and monitor dust suppression and water runoff to provide critical data for reporting and regulatory compliance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Deep Dive -->
+        <section class="py-20 bg-[#222222]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">THE TECHNOLOGY: ARACE ROC PRO</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">HIGH-ENDURANCE VTOL PLATFORM</h3>
+                        <div class="space-y-6">
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <h4 class="font-heading text-lg text-white mb-3">EXTENDED FLIGHT CAPABILITY</h4>
+                                <p class="text-gray-400">3-hour flight time with 225km range enables comprehensive site coverage in a single mission. Vertical take-off and landing eliminates the need for runways or launch equipment.</p>
+                            </div>
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <h4 class="font-heading text-lg text-white mb-3">ADVANCED SENSOR PAYLOAD</h4>
+                                <p class="text-gray-400">5kg payload capacity supports multiple sensor configurations including high-resolution cameras, thermal imaging, LiDAR, and multispectral sensors for comprehensive data collection.</p>
+                            </div>
+                            <div class="bg-[#1A1A1A] p-6 border border-gray-800">
+                                <h4 class="font-heading text-lg text-white mb-3">ALL-WEATHER OPERATION</h4>
+                                <p class="text-gray-400">Operates in wind speeds up to 17m/s and adverse weather conditions. Service ceiling of 4000m handles high-altitude mining operations with ease.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in">
+                        <div class="bg-[#1A1A1A] p-8 border border-gray-800">
+                            <h3 class="font-heading text-2xl text-[#BFFF00] mb-6 text-center">TECHNICAL SPECIFICATIONS</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span class="text-white font-semibold">Flight Time:</span>
+                                    <span class="text-[#BFFF00] font-bold">3 Hours</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span class="text-white font-semibold">Range:</span>
+                                    <span class="text-[#BFFF00] font-bold">225km</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span class="text-white font-semibold">Max Payload:</span>
+                                    <span class="text-[#BFFF00] font-bold">5kg</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span class="text-white font-semibold">Cruise Speed:</span>
+                                    <span class="text-[#BFFF00] font-bold">19-22m/s</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span class="text-white font-semibold">Service Ceiling:</span>
+                                    <span class="text-[#BFFF00] font-bold">4000m</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-white font-semibold">Wind Resistance:</span>
+                                    <span class="text-[#BFFF00] font-bold">Up to 17m/s</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Applications -->
+        <section class="py-20 bg-[#1E1E1E]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">MISSION APPLICATIONS</h2>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">SURVEYING & MAPPING</h3>
+                        <div class="space-y-4">
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <h4 class="text-white font-semibold mb-2">Stockpile Volume Measurement</h4>
+                                <p class="text-gray-400 mb-2">Accurate volumetric calculations for inventory management</p>
+                                <div class="text-[#BFFF00] font-bold">Speed: 95% faster than traditional methods</div>
+                            </div>
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <h4 class="text-white font-semibold mb-2">Topographic Mapping</h4>
+                                <p class="text-gray-400 mb-2">High-resolution terrain models for planning and design</p>
+                                <div class="text-[#BFFF00] font-bold">Accuracy: Sub-centimeter precision with RTK GPS</div>
+                            </div>
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <h4 class="text-white font-semibold mb-2">Progress Monitoring</h4>
+                                <p class="text-gray-400 mb-2">Track excavation and construction progress over time</p>
+                                <div class="text-[#BFFF00] font-bold">Frequency: Daily or weekly automated flights</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">SECURITY & SURVEILLANCE</h3>
+                        <div class="space-y-4">
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <h4 class="text-white font-semibold mb-2">Perimeter Patrol</h4>
+                                <p class="text-gray-400 mb-2">Automated boundary monitoring and intrusion detection</p>
+                                <div class="text-[#BFFF00] font-bold">Coverage: 10x more area than ground patrols</div>
+                            </div>
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <h4 class="text-white font-semibold mb-2">Theft Prevention</h4>
+                                <p class="text-gray-400 mb-2">Real-time monitoring of high-value equipment and materials</p>
+                                <div class="text-[#BFFF00] font-bold">Response: Immediate alerts to security teams</div>
+                            </div>
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <h4 class="text-white font-semibold mb-2">Illegal Mining Detection</h4>
+                                <p class="text-gray-400 mb-2">Identify unauthorized activities in remote areas</p>
+                                <div class="text-[#BFFF00] font-bold">Range: 225km radius from base station</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Environmental Monitoring -->
+        <section class="py-20 bg-[#222222]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">ENVIRONMENTAL MONITORING CAPABILITIES</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-[#1A1A1A] p-8 border border-gray-800 fade-in">
+                        <div class="text-[#BFFF00] text-4xl mb-4">💨</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">DUST MONITORING</h3>
+                        <p class="text-gray-400">Track dust dispersion patterns and suppression effectiveness. Multispectral sensors identify dust clouds and measure particulate concentrations across the site.</p>
+                    </div>
+                    <div class="bg-[#1A1A1A] p-8 border border-gray-800 fade-in">
+                        <div class="text-[#BFFF00] text-4xl mb-4">💧</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">WATER MANAGEMENT</h3>
+                        <p class="text-gray-400">Monitor water runoff, pond levels, and drainage effectiveness. Thermal imaging detects water seepage and identifies potential environmental risks.</p>
+                    </div>
+                    <div class="bg-[#1A1A1A] p-8 border border-gray-800 fade-in">
+                        <div class="text-[#BFFF00] text-4xl mb-4">🌿</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">VEGETATION HEALTH</h3>
+                        <p class="text-gray-400">Assess rehabilitation progress and vegetation health using NDVI analysis. Track revegetation success and identify areas requiring intervention.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Operational Benefits -->
+        <section class="py-20 bg-[#1E1E1E]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">OPERATIONAL BENEFITS</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">COST SAVINGS</h3>
+                        <div class="space-y-4">
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-white font-semibold">Survey Cost Reduction:</span>
+                                    <span class="text-[#BFFF00] font-bold text-xl">80-90%</span>
+                                </div>
+                                <p class="text-gray-400 text-sm">Eliminate expensive helicopter surveys and reduce ground crew requirements</p>
+                            </div>
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-white font-semibold">Security Personnel:</span>
+                                    <span class="text-[#BFFF00] font-bold text-xl">50% Reduction</span>
+                                </div>
+                                <p class="text-gray-400 text-sm">Automated patrols reduce need for human security teams in remote areas</p>
+                            </div>
+                            <div class="bg-[#222222] p-6 border border-gray-800">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-white font-semibold">Data Collection Time:</span>
+                                    <span class="text-[#BFFF00] font-bold text-xl">95% Faster</span>
+                                </div>
+                                <p class="text-gray-400 text-sm">Complete site surveys in hours instead of weeks</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">SAFETY IMPROVEMENTS</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">✓</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Eliminate Human Risk</h4>
+                                    <p class="text-gray-400">Remove personnel from dangerous areas during surveys and inspections</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">✓</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Hazard Identification</h4>
+                                    <p class="text-gray-400">Early detection of slope instability, equipment issues, and environmental hazards</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">✓</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Emergency Response</h4>
+                                    <p class="text-gray-400">Rapid deployment for incident assessment and search and rescue operations</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Smart Hub Integration -->
+        <section class="py-20 bg-[#222222]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">SMART HUB INTEGRATION</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">AUTOMATED WORKFLOWS</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">🔄</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Scheduled Missions</h4>
+                                    <p class="text-gray-400">Pre-programmed flight paths execute automatically at specified intervals</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">📊</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Data Processing</h4>
+                                    <p class="text-gray-400">Automatic processing and analysis of collected data with AI-powered insights</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">📈</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Integrated Reporting</h4>
+                                    <p class="text-gray-400">Seamless integration with other platform components for comprehensive reporting</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-in">
+                        <h3 class="font-heading text-2xl text-[#BFFF00] mb-6">REAL-TIME INTELLIGENCE</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">📡</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Live Video Streaming</h4>
+                                    <p class="text-gray-400">Real-time video feeds to control room for immediate decision making</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">🚨</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Instant Alerts</h4>
+                                    <p class="text-gray-400">Immediate notifications when anomalies or security breaches are detected</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="text-[#BFFF00] text-2xl mt-1">🎯</div>
+                                <div>
+                                    <h4 class="text-white font-semibold mb-2">Targeted Response</h4>
+                                    <p class="text-gray-400">Coordinate with ground teams and other systems for rapid response</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Section -->
+        <section class="py-20 bg-[#1E1E1E]">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl text-white text-center mb-16 fade-in font-heading">IMPLEMENTATION & SUPPORT</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in text-center">
+                        <div class="text-[#BFFF00] text-5xl mb-4">🚁</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">TURNKEY SOLUTION</h3>
+                        <p class="text-gray-400">Complete package including aircraft, ground control station, training, and regulatory compliance support. Ready to operate within weeks of deployment.</p>
+                    </div>
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in text-center">
+                        <div class="text-[#BFFF00] text-5xl mb-4">👨‍✈️</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">PILOT TRAINING</h3>
+                        <p class="text-gray-400">Comprehensive pilot certification program with ongoing recurrency training. Remote pilot licenses and regulatory compliance handled by our experts.</p>
+                    </div>
+                    <div class="bg-[#222222] p-8 border border-gray-800 fade-in text-center">
+                        <div class="text-[#BFFF00] text-5xl mb-4">🔧</div>
+                        <h3 class="font-heading text-xl text-[#BFFF00] mb-4">MAINTENANCE SUPPORT</h3>
+                        <p class="text-gray-400">24/7 technical support with predictive maintenance capabilities. Spare parts inventory and rapid response service ensure maximum uptime.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-[#222222]">
+            <div class="container mx-auto px-4 text-center">
+                <div class="bg-[#1A1A1A] p-12 max-w-4xl mx-auto border border-[#BFFF00]/20 fade-in">
+                    <h2 class="text-3xl md:text-4xl text-white mb-6 font-heading">READY TO DEPLOY AERIAL INTELLIGENCE?</h2>
+                    <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">Join mining operations worldwide who leverage VTOL drone technology to enhance safety, reduce costs, and gain unprecedented operational visibility.</p>
+                    <div class="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center">
+                        <a href="index.html#contact" class="btn-primary px-8 py-4 hover:bg-[#d8ff66] transition-all duration-300 transform hover:scale-105 inline-block font-heading">GET A QUOTE</a>
+                        <a href="index.html#pilot" class="bg-[#2D2D2D] text-[#CCCCCC] px-8 py-4 hover:bg-[#3f3f3f] transition-all duration-300 inline-block font-heading">SCHEDULE DEMO</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black py-8">
+        <div class="container mx-auto px-4 text-center text-gray-500">
+            <p>&copy; 2025 Veralogix Group. All rights reserved.</p>
+            <p class="text-sm mt-2">Joining The Dots.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faders = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            faders.forEach(fader => observer.observe(fader));
+        });
+    </script>
+</body>
+</html>
