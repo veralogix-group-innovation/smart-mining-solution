@@ -11,12 +11,31 @@ class TestChartConfig(unittest.TestCase):
             content = f.read()
 
         # Isolate the javascript for the createHaulageChart function
-        match = re.search(r'function createHaulageChart\(.*?\)\s*\{(.+?)\s*\}\s*\n', content, re.DOTALL)
-        self.assertIsNotNone(match, "Could not find the createHaulageChart function")
+        start_pattern = r'function createHaulageChart\(.*?\)\s*\{'
+        match = re.search(start_pattern, content)
+        self.assertIsNotNone(match, "Could not find the start of createHaulageChart function")
 
-        function_body = match.group(1)
+        start_index = match.end() - 1 # Points to the opening '{'
 
-        # This will fail because the current config is "beginAtZero: false"
+        # Extract the full function body by balancing braces
+        open_braces = 0
+        end_index = -1
+
+        for i, char in enumerate(content[start_index:], start=start_index):
+            if char == '{':
+                open_braces += 1
+            elif char == '}':
+                open_braces -= 1
+
+            if open_braces == 0:
+                end_index = i
+                break
+
+        self.assertNotEqual(end_index, -1, "Could not find the closing brace for createHaulageChart function")
+
+        # content inside the braces
+        function_body = content[start_index+1:end_index]
+
         self.assertIn('beginAtZero: true', function_body, "The haulage chart's y-axis does not begin at zero within the createHaulageChart function.")
 
 if __name__ == '__main__':
