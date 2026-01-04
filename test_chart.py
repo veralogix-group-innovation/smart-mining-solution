@@ -28,7 +28,6 @@ class TestChartConfig(unittest.TestCase):
 
         function_body = content[start_index:end_index]
 
-        # This will fail because the current config is "beginAtZero: false"
         self.assertIn('beginAtZero: true', function_body, "The haulage chart's y-axis does not begin at zero within the createHaulageChart function.")
 
 if __name__ == '__main__':
