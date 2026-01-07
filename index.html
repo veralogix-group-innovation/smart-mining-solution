@@ -340,16 +340,16 @@
                 </div>
 
                 <div class="bg-[#222222] border border-gray-800 p-4 md:p-6 fade-in">
-                    <div class="flex flex-wrap justify-center border-b border-gray-700 mb-6 -mx-2">
-                        <button data-tab="tab-1" class="tab-button tab-active text-sm md:text-base py-3 px-2 md:px-6 border-b-2 transition-all duration-300 font-heading">HAULAGE OPTIMISATION</button>
-                        <button data-tab="tab-2" class="tab-button tab-inactive text-sm md:text-base py-3 px-2 md:px-6 border-b-2 transition-all duration-300 font-heading">PRECISION EARTHWORKS</button>
-                        <button data-tab="tab-3" class="tab-button tab-inactive text-sm md:text-base py-3 px-2 md:px-6 border-b-2 transition-all duration-300 font-heading">PROACTIVE SAFETY</button>
-                        <button data-tab="tab-4" class="tab-button tab-inactive text-sm md:text-base py-3 px-2 md:px-6 border-b-2 transition-all duration-300 font-heading">AERIAL INTELLIGENCE</button>
-                        <button data-tab-5" class="tab-button tab-inactive text-sm md:text-base py-3 px-2 md:px-6 border-b-2 transition-all duration-300 font-heading">WORKFORCE MANAGEMENT</button>
+                    <div class="flex flex-wrap justify-center border-b border-gray-700 mb-6 -mx-2" role="tablist" aria-label="Solution Pillars">
+                        <button id="tab-btn-1" role="tab" aria-selected="true" aria-controls="tab-1" data-tab="tab-1" class="tab-button tab-active text-sm md:text-base py-3 px-2 md:px-6 border-b-2 transition-all duration-300 font-heading">HAULAGE OPTIMISATION</button>
+                        <button id="tab-btn-2" role="tab" aria-selected="false" aria-controls="tab-2" data-tab="tab-2" class="tab-button tab-inactive text-sm md:text-base py-3 px-2 md:px-6 border-b-2 transition-all duration-300 font-heading">PRECISION EARTHWORKS</button>
+                        <button id="tab-btn-3" role="tab" aria-selected="false" aria-controls="tab-3" data-tab="tab-3" class="tab-button tab-inactive text-sm md:text-base py-3 px-2 md:px-6 border-b-2 transition-all duration-300 font-heading">PROACTIVE SAFETY</button>
+                        <button id="tab-btn-4" role="tab" aria-selected="false" aria-controls="tab-4" data-tab="tab-4" class="tab-button tab-inactive text-sm md:text-base py-3 px-2 md:px-6 border-b-2 transition-all duration-300 font-heading">AERIAL INTELLIGENCE</button>
+                        <button id="tab-btn-5" role="tab" aria-selected="false" aria-controls="tab-5" data-tab="tab-5" class="tab-button tab-inactive text-sm md:text-base py-3 px-2 md:px-6 border-b-2 transition-all duration-300 font-heading">WORKFORCE MANAGEMENT</button>
                     </div>
                     
                     <div id="tab-content" class="min-h-[600px] py-4">
-                        <div id="tab-1" class="tab-panel">
+                        <div id="tab-1" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-1" tabindex="0">
                              <div class="prose max-w-none prose-lg mb-8 p-4">
                                 <h3 class="text-2xl font-heading">HAULAGE OPTIMISATION: MAXIMIZING ASSET VALUE</h3>
                                 <p>Loadscan® provides drive-through scanning to measure the exact volume of every load without stopping. This increases material moved by 10-15%, reduces major component failures from overloading by up to 50%, and ensures 100% accurate reconciliation for transparent contractor management, asset protection, and financial planning.</p>
@@ -363,7 +363,7 @@
                                 <canvas id="haulageChart"></canvas>
                             </div>
                         </div>
-                        <div id="tab-2" class="tab-panel hidden">
+                        <div id="tab-2" class="tab-panel hidden" role="tabpanel" aria-labelledby="tab-btn-2" tabindex="0">
                             <div class="prose max-w-none prose-lg mb-8 p-4">
                                 <h3 class="text-2xl font-heading">PRECISION EARTHWORKS: ENGINEERING PERFECT BENCHES & SAFER ROADS</h3>
                                 <p>Powered by Trimble®, this system guides operators to centimetre-level accuracy. It eliminates rework, cuts fuel and maintenance costs, and ensures compliance with South Africa's strict rehabilitation laws. We enhance this with OPTRON custom GNSS solutions for operational backup and peace of mind, ensuring reliability with robust enclosures and antenna mountings.</p>
@@ -377,7 +377,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="tab-3" class="tab-panel hidden">
+                        <div id="tab-3" class="tab-panel hidden" role="tabpanel" aria-labelledby="tab-btn-3" tabindex="0">
                              <div class="prose max-w-none prose-lg mb-8 p-4">
                                 <h3 class="text-2xl font-heading">PROACTIVE SAFETY: THE INTELLIGENT CO-PILOT</h3>
                                 <p>Correct-AI wraps every vehicle in a shield of safety intelligence. Externally, Prox-Eye™ intelligently differentiates between people and vehicles to prevent accidents. Internally, Cabin-Eye™ monitors operators for fatigue. This system provides actionable data on near-misses, allowing you to mitigate risks and manage fatigue before an incident occurs.</p>
@@ -386,7 +386,7 @@
                                 <canvas id="safetyChart"></canvas>
                             </div>
                         </div>
-                        <div id="tab-4" class="tab-panel hidden">
+                        <div id="tab-4" class="tab-panel hidden" role="tabpanel" aria-labelledby="tab-btn-4" tabindex="0">
                            <div class="prose max-w-none prose-lg mb-8 p-4">
                                 <h3 class="text-2xl font-heading">AERIAL INTELLIGENCE: UNMATCHED OVERSIGHT AND ADAPTABILITY</h3>
                                 <p>Advanced VTOL drones automate perimeter security and conduct stockpile surveys 95% faster. This is more than an eye in the sky; it's a tool for total operational awareness, providing critical data for business intelligence, asset protection, and logistics management.</p>
@@ -414,7 +414,7 @@
                                 </div>
                            </div>
                         </div>
-                        <div id="tab-5" class="tab-panel hidden">
+                        <div id="tab-5" class="tab-panel hidden" role="tabpanel" aria-labelledby="tab-btn-5" tabindex="0">
                             <div class="prose max-w-none prose-lg mb-8 p-4">
                                 <h3 class="text-2xl font-heading">WORKFORCE MANAGEMENT: A CULTURE OF ACCOUNTABILITY</h3>
                                 <p>The SentryMine™ and SentryTrack™ platforms ensure 100% of personnel are 100% compliant before they even step on site. This strengthens DMRE compliance, reduces audit prep from weeks to minutes, and eliminates queues to increase the time available for moving coal.</p>
@@ -632,10 +632,27 @@
             underBtn.addEventListener('click', () => { createHaulageChart(haulageData.under); setActiveButton(underBtn); });
             overBtn.addEventListener('click', () => { createHaulageChart(haulageData.over); setActiveButton(overBtn); });
 
-            tabs.forEach(tab => {
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('keydown', (e) => {
+                    let newIndex = -1;
+                    if (e.key === 'ArrowRight') {
+                        newIndex = (index + 1) % tabs.length;
+                    } else if (e.key === 'ArrowLeft') {
+                        newIndex = (index - 1 + tabs.length) % tabs.length;
+                    }
+                    if (newIndex !== -1) {
+                        tabs[newIndex].focus();
+                        tabs[newIndex].click();
+                    }
+                });
+
                 tab.addEventListener('click', () => {
-                    tabs.forEach(item => item.classList.replace('tab-active', 'tab-inactive'));
+                    tabs.forEach(item => {
+                        item.classList.replace('tab-active', 'tab-inactive');
+                        item.setAttribute('aria-selected', 'false');
+                    });
                     tab.classList.replace('tab-inactive', 'tab-active');
+                    tab.setAttribute('aria-selected', 'true');
                     
                     const target = tab.getAttribute('data-tab');
                     
