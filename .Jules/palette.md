@@ -1,5 +1,3 @@
-# Palette's Journal
-
-## 2025-05-19 - Accessible Tabs Component
-**Learning:** Adding full keyboard accessibility to custom tab components improves usability for both screen reader users and keyboard navigators.
-**Action:** Ensure all future tab implementations use the `role="tablist"`, `role="tab"`, and `role="tabpanel"` pattern with appropriate ARIA attributes.
+## 2025-02-14 - Keyboard Accessibility Foundations
+**Learning:** Even visually polished marketing sites often miss basic keyboard accessibility. The absence of a skip link and focus indicators on key inputs like search creates a major barrier.
+**Action:** Always check for `focus:outline-none` in Tailwind projects. If removed, ensure a replacement `focus:ring` or similar is added immediately. Always check for a skip link on pages with heavy navigation.
