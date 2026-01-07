@@ -12,25 +12,22 @@ def verify_download_button():
         print(f"Opening {html_file}")
         page.goto(f"file://{html_file}")
 
-        # Scroll to the Hub section
-        page.locator("#hub").scroll_into_view_if_needed()
-        page.wait_for_timeout(500) # Wait for animation
+        # Scroll to the Footer
+        footer = page.locator("footer")
+        footer.scroll_into_view_if_needed()
+        page.wait_for_timeout(500)
 
-        # Check for the button
-        download_btn = page.get_by_role("link", name="DOWNLOAD ALL SCREENSHOTS")
-        expect(download_btn).to_be_visible()
+        # Check for the link
+        download_link = page.get_by_role("link", name="Download Assets")
+        expect(download_link).to_be_visible()
 
-        href = download_btn.get_attribute("href")
-        print(f"Button href: {href}")
+        href = download_link.get_attribute("href")
+        print(f"Link href: {href}")
         assert href == "assets/hub-screenshots.zip"
 
-        # Take screenshot of the section
-        screenshot_path = os.path.join(base_dir, "verification/download_button_verification.png")
-        # Removing manual clip, relying on element screenshot
-
-        # Better screenshot method
-        hub_section = page.locator("#hub")
-        hub_section.screenshot(path=screenshot_path)
+        # Take screenshot of the footer
+        screenshot_path = os.path.join(base_dir, "verification/footer_verification.png")
+        footer.screenshot(path=screenshot_path)
         print(f"Screenshot saved to {screenshot_path}")
 
         browser.close()
