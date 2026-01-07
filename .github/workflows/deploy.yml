@@ -32,6 +32,12 @@ jobs:
       - name: Generate Screenshots
         run: python generate_screenshots.py
 
+      - name: Upload Screenshots Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: hub-screenshots
+          path: assets/hub-screenshots.zip
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
