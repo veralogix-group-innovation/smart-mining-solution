@@ -89,6 +89,10 @@
          .btn-primary:hover {
              background-color: #d8ff66;
          }
+        .btn-primary:focus-visible {
+            outline: 2px solid white;
+            outline-offset: 2px;
+        }
         .btn-secondary {
             background-color: #2D2D2D;
             color: #CCCCCC;
@@ -165,7 +169,7 @@
                     <h2 class="font-heading text-5xl md:text-7xl font-black mb-4 leading-tight">AUTONOMOUS</h2>
                     <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-lg mx-auto">We're not just testing—we're targeting your measurable returns. And the future is autonomous.</p>
                     <div class="flex items-center bg-black/50 backdrop-blur-sm p-2 max-w-md border border-gray-700 mx-auto">
-                        <input type="text" placeholder="Start your exploration here..." class="bg-transparent w-full text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#BFFF00] rounded px-4">
+                        <input type="text" placeholder="Start your exploration here..." aria-label="Search site" class="bg-transparent w-full text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#BFFF00] rounded px-4">
                         <button class="bg-[#BFFF00] text-black p-3 hover:bg-[#d8ff66] transition-colors duration-300" aria-label="Search site">
                              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </button>
@@ -355,9 +359,9 @@
                                 <p>Loadscan® provides drive-through scanning to measure the exact volume of every load without stopping. This increases material moved by 10-15%, reduces major component failures from overloading by up to 50%, and ensures 100% accurate reconciliation for transparent contractor management, asset protection, and financial planning.</p>
                             </div>
                             <div class="text-center mb-4 space-x-2">
-                                <button id="loadOptimalBtn" class="font-heading btn-primary px-4 py-2 btn-active">OPTIMAL LOAD</button>
-                                <button id="loadUnderBtn" class="font-heading btn-secondary px-4 py-2">UNDERLOADED (90%)</button>
-                                <button id="loadOverBtn" class="font-heading btn-secondary px-4 py-2">OVERLOADED (110%)</button>
+                                <button id="loadOptimalBtn" class="font-heading btn-primary px-4 py-2 btn-active" aria-pressed="true">OPTIMAL LOAD</button>
+                                <button id="loadUnderBtn" class="font-heading btn-secondary px-4 py-2" aria-pressed="false">UNDERLOADED (90%)</button>
+                                <button id="loadOverBtn" class="font-heading btn-secondary px-4 py-2" aria-pressed="false">OVERLOADED (110%)</button>
                             </div>
                             <div class="chart-container">
                                 <canvas id="haulageChart"></canvas>
@@ -615,10 +619,14 @@
             const loadButtons = [optimalBtn, underBtn, overBtn];
             
             function setActiveButton(activeBtn) {
-                loadButtons.forEach(btn => btn.classList.remove('btn-active', 'btn-primary'));
-                loadButtons.forEach(btn => btn.classList.add('btn-secondary'));
+                loadButtons.forEach(btn => {
+                    btn.classList.remove('btn-active', 'btn-primary');
+                    btn.classList.add('btn-secondary');
+                    btn.setAttribute('aria-pressed', 'false');
+                });
                 activeBtn.classList.add('btn-active', 'btn-primary');
                 activeBtn.classList.remove('btn-secondary');
+                activeBtn.setAttribute('aria-pressed', 'true');
             }
 
             optimalBtn.addEventListener('click', () => { createHaulageChart(haulageData.optimal); setActiveButton(optimalBtn); });
