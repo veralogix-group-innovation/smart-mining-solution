@@ -495,8 +495,39 @@
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-[#BFFF00] text-[#1A1A1A] p-3 rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 z-50 hover:bg-[#d8ff66] focus:outline-none focus:ring-2 focus:ring-[#BFFF00] focus:ring-offset-2 focus:ring-offset-[#1A1A1A]" aria-label="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Back to Top functionality
+            const backToTopBtn = document.getElementById('back-to-top');
+
+            let isScrolling;
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    window.requestAnimationFrame(() => {
+                        if (window.scrollY > 300) {
+                            backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                        } else {
+                            backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                        }
+                        isScrolling = false;
+                    });
+                    isScrolling = true;
+                }
+            }, { passive: true });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
             
             const haulageData = {
                 optimal: {
