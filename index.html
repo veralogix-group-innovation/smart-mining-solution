@@ -61,11 +61,12 @@
             transition: all 0.3s ease-in-out;
             cursor: default;
         }
-        .hub-node:hover {
+        .hub-node:hover, .hub-node:focus {
             transform: scale(1.1) translateX(-45%) translateY(-45%);
             z-index: 20;
+            outline: none;
         }
-        .hub-node:hover .hub-text {
+        .hub-node:hover .hub-text, .hub-node:focus .hub-text {
             background-color: #BFFF00 !important;
             color: #1A1A1A !important;
             border-color: #BFFF00 !important;
@@ -725,6 +726,9 @@
 
                     const node = document.createElement('div');
                     node.className = 'hub-node absolute';
+                    node.setAttribute('tabindex', '0');
+                    node.setAttribute('role', 'img');
+                    node.setAttribute('aria-label', pillar);
                     node.style.left = `${x}px`;
                     node.style.top = `${y}px`;
                     node.innerHTML = `<div class="hub-text bg-[#222222] border-2 border-gray-800 rounded-full w-24 h-24 flex items-center justify-center font-heading text-white text-sm text-center p-2">${pillar}</div>`;
