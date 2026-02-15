@@ -1,6 +1,6 @@
 from playwright.sync_api import sync_playwright, expect
 import os
-import re
+import time
 
 def verify_hub_ux():
     base_dir = os.getcwd()
@@ -13,64 +13,68 @@ def verify_hub_ux():
         print(f"Opening {html_file}")
         page.goto(f"file://{html_file}")
 
-        # Scroll to the Hub section
-        hub_section = page.locator("#hub")
-        hub_section.scroll_into_view_if_needed()
-        page.wait_for_timeout(500) # Wait for animation/layout
-
-        # Locate the hub nodes
-        nodes = page.locator(".hub-node")
-
-        # Wait for nodes to be generated
+        # Wait for hub diagram to generate
+        page.wait_for_selector("#hub-center")
         page.wait_for_selector(".hub-node")
 
-        count = nodes.count()
-        print(f"Found {count} hub nodes")
+        # Scroll to section
+        page.locator("#hub").scroll_into_view_if_needed()
+        time.sleep(0.5)
 
-        outer_node = nodes.nth(1)
+        # Get all nodes
+        nodes = page.locator(".hub-node").all()
+        print(f"Found {len(nodes)} hub nodes")
 
-        print("Checking attributes...")
-        try:
-            expect(outer_node).to_have_attribute("tabindex", "0")
-            print("✅ tabindex='0' present")
-        except Exception as e:
-            print(f"❌ tabindex missing or incorrect: {e}")
+        if len(nodes) == 0:
+            raise Exception("No hub nodes found")
 
-        try:
-            expect(outer_node).to_have_attribute("role", "img")
-            print("✅ role='img' present")
-        except Exception as e:
-            print(f"❌ role missing or incorrect: {e}")
+        # Verify accessibility attributes
+        for i, node in enumerate(nodes):
+            print(f"Checking node {i}")
 
-        try:
-            # check if it has "Pillar" in it
-            expect(outer_node).to_have_attribute("aria-label", re.compile(r".+ Pillar"))
-            print("✅ aria-label present")
-        except Exception as e:
-            print(f"❌ aria-label missing: {e}")
+            # Check tabindex
+            tabindex = node.get_attribute("tabindex")
+            print(f"  tabindex: {tabindex}")
+            if tabindex != "0":
+                print("  FAIL: tabindex is missing or incorrect")
 
-        # Verify Focus Behavior
-        print("Testing keyboard focus...")
-        try:
-            outer_node.focus()
-            expect(outer_node).to_be_focused()
-            print("✅ Element can be focused via API")
+            # Check role
+            role = node.get_attribute("role")
+            print(f"  role: {role}")
+            if role != "img":
+                 print("  FAIL: role is missing or incorrect")
 
-        except Exception as e:
-            print(f"❌ Failed to focus element: {e}")
+            # Check aria-label
+            aria_label = node.get_attribute("aria-label")
+            print(f"  aria-label: {aria_label}")
+            if not aria_label:
+                 print("  FAIL: aria-label is missing")
 
-        # Take screenshot of focused state
-        screenshot_path = os.path.join(base_dir, "verification/hub_focus_check.png")
-        if count > 0:
-            try:
-                outer_node.focus()
-                page.wait_for_timeout(200) # Wait for transition
-                page.screenshot(path=screenshot_path)
-                print(f"Screenshot saved to {screenshot_path}")
-            except:
-                print("Could not take screenshot of focused node")
+        # Check interaction (focus state)
+        # We pick the first pillar node (not center) to test hover/focus style
+        # The center node is usually first or last depending on DOM order.
+        # pillars are appended to container. Center is re-inserted.
+        # Let's just try to focus the second node (index 1) which should be a pillar
+        target_node = nodes[1]
+        target_node.focus()
+
+        # Check if it is focused
+        is_focused = target_node.evaluate("el => document.activeElement === el")
+        print(f"Node 1 is focused: {is_focused}")
+
+        # Take screenshot of the hub
+        screenshot_path = os.path.join(base_dir, "verification/hub_verification.png")
+        page.locator("#hub-diagram").screenshot(path=screenshot_path)
+        print(f"Screenshot saved to {screenshot_path}")
+
+        # Assertions
+        for node in nodes:
+            expect(node).to_have_attribute("tabindex", "0")
+            expect(node).to_have_attribute("role", "img")
+            expect(node).to_have_attribute("aria-label", re.compile(r".+"))
 
         browser.close()
 
 if __name__ == "__main__":
+    import re
     verify_hub_ux()
