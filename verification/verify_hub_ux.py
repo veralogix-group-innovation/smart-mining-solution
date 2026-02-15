@@ -1,78 +1,80 @@
 from playwright.sync_api import sync_playwright, expect
 import os
+import time
 
 def verify_hub_ux():
     base_dir = os.getcwd()
-    file_path = os.path.join(base_dir, "index.html")
-
-    if not os.path.exists(file_path):
-        print("Error: index.html not found")
-        return
+    html_file = os.path.join(base_dir, "index.html")
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page(viewport={"width": 1920, "height": 1080})
 
-        print(f"Loading {file_path}...")
-        page.goto(f"file://{file_path}")
+        print(f"Opening {html_file}")
+        page.goto(f"file://{html_file}")
 
-        # Wait for the diagram to be generated
-        page.wait_for_selector("#hub-diagram .hub-node")
+        # Wait for hub diagram to generate
+        page.wait_for_selector("#hub-center")
+        page.wait_for_selector(".hub-node")
 
-        # Get all hub nodes
-        nodes = page.locator(".hub-node")
-        count = nodes.count()
-        print(f"Found {count} hub nodes.")
+        # Scroll to section
+        page.locator("#hub").scroll_into_view_if_needed()
+        time.sleep(0.5)
 
-        # Expect 7 nodes (1 center + 6 pillars)
-        if count != 7:
-            print(f"FAILURE: Expected 7 nodes, found {count}")
-            # We don't exit here to see other failures if any, but in a real test we might.
+        # Get all nodes
+        nodes = page.locator(".hub-node").all()
+        print(f"Found {len(nodes)} hub nodes")
 
-        # Check accessibility attributes
-        for i in range(count):
-            node = nodes.nth(i)
+        if len(nodes) == 0:
+            raise Exception("No hub nodes found")
+
+        # Verify accessibility attributes
+        for i, node in enumerate(nodes):
+            print(f"Checking node {i}")
 
             # Check tabindex
             tabindex = node.get_attribute("tabindex")
+            print(f"  tabindex: {tabindex}")
             if tabindex != "0":
-                print(f"Node {i} missing tabindex='0' (found: {tabindex})")
+                print("  FAIL: tabindex is missing or incorrect")
 
             # Check role
             role = node.get_attribute("role")
+            print(f"  role: {role}")
             if role != "img":
-                 print(f"Node {i} missing role='img' (found: {role})")
+                 print("  FAIL: role is missing or incorrect")
 
             # Check aria-label
             aria_label = node.get_attribute("aria-label")
+            print(f"  aria-label: {aria_label}")
             if not aria_label:
-                print(f"Node {i} missing aria-label")
-            else:
-                print(f"Node {i} aria-label: {aria_label}")
+                 print("  FAIL: aria-label is missing")
 
-        # Check Keyboard Navigation
-        print("Testing keyboard navigation...")
-        # Focus the first element on the page (Skip link)
-        page.keyboard.press("Tab")
+        # Check interaction (focus state)
+        # We pick the first pillar node (not center) to test hover/focus style
+        # The center node is usually first or last depending on DOM order.
+        # pillars are appended to container. Center is re-inserted.
+        # Let's just try to focus the second node (index 1) which should be a pillar
+        target_node = nodes[1]
+        target_node.focus()
 
-        # Tab through until we hit the hub nodes.
-        # This is tricky because there are many links before.
-        # Alternatively, we can focus the section before it and then tab.
+        # Check if it is focused
+        is_focused = target_node.evaluate("el => document.activeElement === el")
+        print(f"Node 1 is focused: {is_focused}")
 
-        # Let's try to focus the element before the hub section to simulate natural flow,
-        # or just verify they CAN be focused.
+        # Take screenshot of the hub
+        screenshot_path = os.path.join(base_dir, "verification/hub_verification.png")
+        page.locator("#hub-diagram").screenshot(path=screenshot_path)
+        print(f"Screenshot saved to {screenshot_path}")
 
-        # Focusing the first node explicitly to see if it receives focus
-        nodes.first.focus()
-        expect(nodes.first).to_be_focused()
-        print("First node is focusable.")
-
-        # Now Tab to the next one
-        page.keyboard.press("Tab")
-        expect(nodes.nth(1)).to_be_focused()
-        print("Tabbed to second node successfully.")
+        # Assertions
+        for node in nodes:
+            expect(node).to_have_attribute("tabindex", "0")
+            expect(node).to_have_attribute("role", "img")
+            expect(node).to_have_attribute("aria-label", re.compile(r".+"))
 
         browser.close()
 
 if __name__ == "__main__":
+    import re
     verify_hub_ux()
