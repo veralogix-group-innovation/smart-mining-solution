@@ -72,6 +72,17 @@
             border-color: #BFFF00 !important;
             box-shadow: 0 0 15px rgba(191, 255, 0, 0.5);
         }
+        .hub-node:focus {
+            outline: none;
+            transform: scale(1.1) translateX(-45%) translateY(-45%) !important;
+            z-index: 20;
+        }
+        .hub-node:focus .hub-text {
+            background-color: #BFFF00 !important;
+            color: #1A1A1A !important;
+            border-color: #BFFF00 !important;
+            box-shadow: 0 0 0 4px rgba(191, 255, 0, 0.5);
+        }
         .hub-line {
             position: absolute;
             background-color: #4A4A4A;
@@ -735,6 +746,12 @@
                     node.innerHTML = `<div class="hub-text bg-[#222222] border-2 border-gray-800 rounded-full w-24 h-24 flex items-center justify-center font-heading text-white text-sm text-center p-2">${pillar}</div>`;
                     
                     node.style.transform = 'translateX(-50%) translateY(-50%)';
+
+                    // Accessibility attributes
+                    node.setAttribute('tabindex', '0');
+                    node.setAttribute('role', 'img');
+                    node.setAttribute('aria-label', pillar);
+
                     container.appendChild(node);
                     
                     const line = document.createElement('div');
