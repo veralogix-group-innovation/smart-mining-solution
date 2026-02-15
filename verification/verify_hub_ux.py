@@ -1,97 +1,80 @@
 from playwright.sync_api import sync_playwright, expect
 import os
-import sys
-import re
+import time
 
-def run():
+def verify_hub_ux():
+    base_dir = os.getcwd()
+    html_file = os.path.join(base_dir, "index.html")
+
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+        page = browser.new_page(viewport={"width": 1920, "height": 1080})
 
-        # Load the page
-        url = f"file://{os.getcwd()}/index.html"
-        print(f"Loading {url}")
-        page.goto(url)
+        print(f"Opening {html_file}")
+        page.goto(f"file://{html_file}")
 
-        # Wait for the diagram to be generated
-        try:
-            page.wait_for_selector("#hub-center", state="visible", timeout=5000)
-            page.wait_for_selector(".hub-node", state="visible", timeout=5000)
-        except Exception as e:
-            print("Timed out waiting for Hub Diagram elements.")
-            sys.exit(1)
+        # Wait for hub diagram to generate
+        page.wait_for_selector("#hub-center")
+        page.wait_for_selector(".hub-node")
 
-        # Get all hub nodes
-        nodes = page.locator(".hub-node")
-        count = nodes.count()
-        print(f"Found {count} hub nodes.")
+        # Scroll to section
+        page.locator("#hub").scroll_into_view_if_needed()
+        time.sleep(0.5)
 
-        if count < 2:
-            print("Error: Expected at least center + 1 pillar node.")
-            sys.exit(1)
+        # Get all nodes
+        nodes = page.locator(".hub-node").all()
+        print(f"Found {len(nodes)} hub nodes")
 
-        # 1. Check Center Node
-        center = page.locator("#hub-center")
-        print("Verifying Center Node attributes...")
+        if len(nodes) == 0:
+            raise Exception("No hub nodes found")
 
-        try:
-            expect(center).to_have_attribute("tabindex", "0")
-            expect(center).to_have_attribute("role", "img")
-            expect(center).to_have_attribute("aria-label", "Smart Hub Center")
-            print("✅ Center node attributes correct.")
-        except AssertionError as e:
-            print(f"❌ Center node attributes missing: {e}")
-            # Don't exit yet, check pillars
+        # Verify accessibility attributes
+        for i, node in enumerate(nodes):
+            print(f"Checking node {i}")
 
-        # 2. Check Pillar Node (e.g., the first one after center)
-        # Note: .hub-node includes center.
-        pillar = nodes.nth(1)
-        print("Verifying Pillar Node attributes...")
+            # Check tabindex
+            tabindex = node.get_attribute("tabindex")
+            print(f"  tabindex: {tabindex}")
+            if tabindex != "0":
+                print("  FAIL: tabindex is missing or incorrect")
 
-        try:
-            expect(pillar).to_have_attribute("tabindex", "0")
-            expect(pillar).to_have_attribute("role", "img")
-            # We don't check exact label content as it varies, just presence
-            expect(pillar).to_have_attribute("aria-label", re.compile(r".+"))
-            print("✅ Pillar node attributes correct.")
-        except AssertionError as e:
-            print(f"❌ Pillar node attributes missing: {e}")
+            # Check role
+            role = node.get_attribute("role")
+            print(f"  role: {role}")
+            if role != "img":
+                 print("  FAIL: role is missing or incorrect")
 
-        # 3. Check Focus Behavior
-        print("Verifying Focus Behavior...")
-        try:
-            pillar.focus()
-            expect(pillar).to_be_focused()
-            print("✅ Pillar node is focusable.")
+            # Check aria-label
+            aria_label = node.get_attribute("aria-label")
+            print(f"  aria-label: {aria_label}")
+            if not aria_label:
+                 print("  FAIL: aria-label is missing")
 
-            # Check computed style for transform
-            # The hover effect applies: transform: scale(1.1) translateX(-45%) translateY(-45%)
-            # We check if the transform matrix changes from default.
-            # Default (set by JS) is translate(-50%, -50%).
-            # Note: computed style might return matrix(...)
+        # Check interaction (focus state)
+        # We pick the first pillar node (not center) to test hover/focus style
+        # The center node is usually first or last depending on DOM order.
+        # pillars are appended to container. Center is re-inserted.
+        # Let's just try to focus the second node (index 1) which should be a pillar
+        target_node = nodes[1]
+        target_node.focus()
 
-            # Let's just check if the class or style is applied via CSS check?
-            # CSS :focus-visible rules can't be easily checked via computed style in some browsers if not natively supported by playwright logic?
-            # Actually computed style is the best way.
+        # Check if it is focused
+        is_focused = target_node.evaluate("el => document.activeElement === el")
+        print(f"Node 1 is focused: {is_focused}")
 
-            # Let's check z-index which changes to 20 on hover/focus
-            z_index = pillar.evaluate("element => window.getComputedStyle(element).zIndex")
-            if z_index == "20":
-                print("✅ Pillar node has correct z-index on focus (visual feedback active).")
-            else:
-                print(f"❌ Pillar node z-index is {z_index}, expected 20.")
+        # Take screenshot of the hub
+        screenshot_path = os.path.join(base_dir, "verification/hub_verification.png")
+        page.locator("#hub-diagram").screenshot(path=screenshot_path)
+        print(f"Screenshot saved to {screenshot_path}")
 
-            # Take screenshot for visual verification
-            # Ensure it is in view
-            pillar.scroll_into_view_if_needed()
-            # Capture the diagram area
-            page.locator("#hub-diagram").screenshot(path="verification/hub_focused.png")
-            print("📸 Screenshot saved to verification/hub_focused.png")
-
-        except Exception as e:
-             print(f"❌ Focus test failed: {e}")
+        # Assertions
+        for node in nodes:
+            expect(node).to_have_attribute("tabindex", "0")
+            expect(node).to_have_attribute("role", "img")
+            expect(node).to_have_attribute("aria-label", re.compile(r".+"))
 
         browser.close()
 
 if __name__ == "__main__":
-    run()
+    import re
+    verify_hub_ux()
