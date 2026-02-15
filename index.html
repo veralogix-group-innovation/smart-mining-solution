@@ -754,6 +754,11 @@
                     node.setAttribute('aria-label', `${pillar} - Smart Hub Pillar`);
                     node.innerHTML = `<div class="hub-text bg-[#222222] border-2 border-gray-800 rounded-full w-24 h-24 flex items-center justify-center font-heading text-white text-sm text-center p-2">${pillar}</div>`;
                     
+                    // Accessibility attributes
+                    node.tabIndex = 0;
+                    node.setAttribute('role', 'img');
+                    node.setAttribute('aria-label', pillar + ' Pillar');
+
                     node.style.transform = 'translateX(-50%) translateY(-50%)';
 
                     // Accessibility attributes
