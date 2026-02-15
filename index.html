@@ -738,6 +738,9 @@
 
                     const node = document.createElement('div');
                     node.className = 'hub-node absolute';
+                    node.setAttribute('tabindex', '0');
+                    node.setAttribute('role', 'img');
+                    node.setAttribute('aria-label', `${pillar} Pillar`);
                     node.style.left = `${x}px`;
                     node.style.top = `${y}px`;
                     node.setAttribute('tabindex', '0');
