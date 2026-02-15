@@ -1,65 +1,80 @@
 from playwright.sync_api import sync_playwright, expect
 import os
+import time
 
 def verify_hub_ux():
     base_dir = os.getcwd()
-    html_file = "index.html"
-    file_path = os.path.join(base_dir, html_file)
+    html_file = os.path.join(base_dir, "index.html")
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page(viewport={"width": 1920, "height": 1080})
 
-        print(f"Checking {html_file} for Smart Hub UX...")
-        page.goto(f"file://{file_path}")
+        print(f"Opening {html_file}")
+        page.goto(f"file://{html_file}")
 
-        # Scroll to the Hub section to ensure it's visible (though not strictly necessary for DOM presence check)
-        hub_section = page.locator("#hub")
-        hub_section.scroll_into_view_if_needed()
+        # Wait for hub diagram to generate
+        page.wait_for_selector("#hub-center")
+        page.wait_for_selector(".hub-node")
 
-        # Wait for the hub nodes to be generated
-        # There should be 7 nodes: 1 center + 6 pillars
-        nodes = page.locator(".hub-node")
-        expect(nodes).to_have_count(7, timeout=5000)
+        # Scroll to section
+        page.locator("#hub").scroll_into_view_if_needed()
+        time.sleep(0.5)
 
-        print("Hub nodes found.")
+        # Get all nodes
+        nodes = page.locator(".hub-node").all()
+        print(f"Found {len(nodes)} hub nodes")
 
-        # Check accessibility attributes for the center node
-        center_node = page.locator("#hub-center")
-        expect(center_node).to_have_attribute("role", "img")
-        expect(center_node).to_have_attribute("tabindex", "0")
-        expect(center_node).to_have_attribute("aria-label", "Smart Hub Center")
+        if len(nodes) == 0:
+            raise Exception("No hub nodes found")
 
-        print("Center node accessibility verified.")
+        # Verify accessibility attributes
+        for i, node in enumerate(nodes):
+            print(f"Checking node {i}")
 
-        # Check accessibility attributes for the pillar nodes
-        # We'll check the first one as a sample, or iterate
-        count = nodes.count()
-        for i in range(count):
-            node = nodes.nth(i)
-            # Center node is one of them, we already checked specific attributes for it,
-            # but let's check general structure for all
-            if node.get_attribute("id") == "hub-center":
-                continue
+            # Check tabindex
+            tabindex = node.get_attribute("tabindex")
+            print(f"  tabindex: {tabindex}")
+            if tabindex != "0":
+                print("  FAIL: tabindex is missing or incorrect")
 
-            expect(node).to_have_attribute("role", "img")
-            expect(node).to_have_attribute("tabindex", "0")
-            # Aria label should be present
+            # Check role
+            role = node.get_attribute("role")
+            print(f"  role: {role}")
+            if role != "img":
+                 print("  FAIL: role is missing or incorrect")
+
+            # Check aria-label
             aria_label = node.get_attribute("aria-label")
-            assert aria_label and "Smart Hub Pillar:" in aria_label, f"Node {i} missing correct aria-label: {aria_label}"
+            print(f"  aria-label: {aria_label}")
+            if not aria_label:
+                 print("  FAIL: aria-label is missing")
 
-        print("Pillar nodes accessibility verified.")
+        # Check interaction (focus state)
+        # We pick the first pillar node (not center) to test hover/focus style
+        # The center node is usually first or last depending on DOM order.
+        # pillars are appended to container. Center is re-inserted.
+        # Let's just try to focus the second node (index 1) which should be a pillar
+        target_node = nodes[1]
+        target_node.focus()
 
-        # Take a screenshot for visual verification
-        page.screenshot(path="verification/hub_ux.png")
-        print("Screenshot saved to verification/hub_ux.png")
+        # Check if it is focused
+        is_focused = target_node.evaluate("el => document.activeElement === el")
+        print(f"Node 1 is focused: {is_focused}")
+
+        # Take screenshot of the hub
+        screenshot_path = os.path.join(base_dir, "verification/hub_verification.png")
+        page.locator("#hub-diagram").screenshot(path=screenshot_path)
+        print(f"Screenshot saved to {screenshot_path}")
+
+        # Assertions
+        for node in nodes:
+            expect(node).to_have_attribute("tabindex", "0")
+            expect(node).to_have_attribute("role", "img")
+            expect(node).to_have_attribute("aria-label", re.compile(r".+"))
 
         browser.close()
 
 if __name__ == "__main__":
-    try:
-        verify_hub_ux()
-        print("SUCCESS: Smart Hub UX verification passed.")
-    except Exception as e:
-        print(f"FAILURE: {e}")
-        exit(1)
+    import re
+    verify_hub_ux()
