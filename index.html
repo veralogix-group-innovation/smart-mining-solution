@@ -61,15 +61,27 @@
             transition: all 0.3s ease-in-out;
             cursor: pointer;
         }
-        .hub-node:hover, .hub-node:focus {
-            transform: scale(1.1) translateX(-45%) translateY(-45%);
+        .hub-node:hover, .hub-node:focus-visible {
+            transform: scale(1.1) translateX(-45%) translateY(-45%) !important;
             z-index: 20;
             outline: none;
         }
-        .hub-node:hover .hub-text, .hub-node:focus .hub-text {
+        .hub-node:hover .hub-text, .hub-node:focus-visible .hub-text {
             background-color: #BFFF00 !important;
             color: #1A1A1A !important;
             border-color: #BFFF00 !important;
+            box-shadow: 0 0 15px rgba(191, 255, 0, 0.5);
+        }
+        .hub-node:focus {
+            outline: none;
+            transform: scale(1.1) translateX(-45%) translateY(-45%) !important;
+            z-index: 20;
+        }
+        .hub-node:focus .hub-text {
+            background-color: #BFFF00 !important;
+            color: #1A1A1A !important;
+            border-color: #BFFF00 !important;
+            box-shadow: 0 0 0 4px rgba(191, 255, 0, 0.5);
         }
         .hub-line {
             position: absolute;
@@ -470,7 +482,7 @@
                 <p class="text-lg text-gray-400 max-w-3xl mx-auto mb-16 fade-in">This isn't a collection of separate products; it's one integrated system for total intelligence, turning data into actionable insights for workforce management and production optimization.</p>
                 
                 <div class="relative w-full max-w-2xl mx-auto h-[450px] md:h-[500px] fade-in" id="hub-diagram">
-                    <div id="hub-center" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-48 md:h-48 bg-[#BFFF00] rounded-full flex items-center justify-center text-[#1A1A1A] font-black text-xl text-center shadow-2xl z-10 p-4 hub-node font-heading">SMART HUB</div>
+                    <div id="hub-center" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-48 md:h-48 bg-[#BFFF00] rounded-full flex items-center justify-center text-[#1A1A1A] font-black text-xl text-center shadow-2xl z-10 p-4 hub-node font-heading" tabindex="0" role="img" aria-label="Smart Hub Center">SMART HUB</div>
                 </div>
             </div>
         </section>
@@ -713,8 +725,7 @@
             function createHubDiagram() {
                 const container = document.getElementById('hub-diagram');
                 if(!container) return;
-        // Added accessibility attributes: tabindex="0", role="img" (since it's informational), aria-label
-        container.innerHTML = `<div id="hub-center" tabindex="0" role="img" aria-label="Smart Hub Center" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-48 md:h-48 bg-[#BFFF00] rounded-full flex items-center justify-center text-[#1A1A1A] font-black text-xl text-center shadow-2xl z-10 p-4 hub-node font-heading">SMART HUB</div>`;
+                container.innerHTML = `<div id="hub-center" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-48 md:h-48 bg-[#BFFF00] rounded-full flex items-center justify-center text-[#1A1A1A] font-black text-xl text-center shadow-2xl z-10 p-4 hub-node font-heading" tabindex="0" role="img" aria-label="Smart Hub Center">SMART HUB</div>`;
 
                 const pillars = ["WORKFORCE", "SAFETY", "EARTHWORKS", "AERIAL", "HAULAGE", "REPORTING"];
                 const angleStep = 360 / pillars.length;
@@ -727,14 +738,23 @@
 
                     const node = document.createElement('div');
                     node.className = 'hub-node absolute';
-            node.setAttribute('tabindex', '0');
-            node.setAttribute('role', 'img');
-            node.setAttribute('aria-label', `Hub Pillar: ${pillar}`);
+                    node.setAttribute('tabindex', '0');
+                    node.setAttribute('role', 'img');
+                    node.setAttribute('aria-label', `${pillar} Pillar`);
                     node.style.left = `${x}px`;
                     node.style.top = `${y}px`;
+                    node.setAttribute('tabindex', '0');
+                    node.setAttribute('role', 'img');
+                    node.setAttribute('aria-label', `${pillar} - Smart Hub Pillar`);
                     node.innerHTML = `<div class="hub-text bg-[#222222] border-2 border-gray-800 rounded-full w-24 h-24 flex items-center justify-center font-heading text-white text-sm text-center p-2">${pillar}</div>`;
                     
                     node.style.transform = 'translateX(-50%) translateY(-50%)';
+
+                    // Accessibility attributes
+                    node.setAttribute('tabindex', '0');
+                    node.setAttribute('role', 'img');
+                    node.setAttribute('aria-label', pillar);
+
                     container.appendChild(node);
                     
                     const line = document.createElement('div');
