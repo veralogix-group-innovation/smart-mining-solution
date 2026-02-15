@@ -1,6 +1,6 @@
 from playwright.sync_api import sync_playwright, expect
 import os
-import re
+import time
 
 def verify_hub_ux():
     base_dir = os.getcwd()
@@ -13,58 +13,68 @@ def verify_hub_ux():
         print(f"Opening {html_file}")
         page.goto(f"file://{html_file}")
 
-        # Wait for hub to generate
-        page.wait_for_selector("#hub-diagram")
-        page.wait_for_timeout(1000)
+        # Wait for hub diagram to generate
+        page.wait_for_selector("#hub-center")
+        page.wait_for_selector(".hub-node")
 
-        nodes = page.locator(".hub-node")
-        count = nodes.count()
-        print(f"Found {count} hub nodes")
+        # Scroll to section
+        page.locator("#hub").scroll_into_view_if_needed()
+        time.sleep(0.5)
 
-        if count == 0:
-            print("Error: No hub nodes found")
-            exit(1)
+        # Get all nodes
+        nodes = page.locator(".hub-node").all()
+        print(f"Found {len(nodes)} hub nodes")
 
-        center_node = nodes.nth(0)
-        first_pillar = nodes.nth(1)
+        if len(nodes) == 0:
+            raise Exception("No hub nodes found")
 
-        print("Checking Center Node...")
-        try:
-            expect(center_node).to_have_attribute("tabindex", "0")
-            print("PASS: Center node has tabindex=0")
-        except AssertionError:
-            print("FAIL: Center node missing tabindex=0")
+        # Verify accessibility attributes
+        for i, node in enumerate(nodes):
+            print(f"Checking node {i}")
 
-        print("Checking First Pillar Node...")
-        try:
-            expect(first_pillar).to_have_attribute("tabindex", "0")
-            print("PASS: First pillar node has tabindex=0")
-        except AssertionError:
-            print("FAIL: First pillar node missing tabindex=0")
+            # Check tabindex
+            tabindex = node.get_attribute("tabindex")
+            print(f"  tabindex: {tabindex}")
+            if tabindex != "0":
+                print("  FAIL: tabindex is missing or incorrect")
 
-        try:
-            expect(first_pillar).to_have_attribute("role", "img")
-            print("PASS: First pillar node has role=img")
-        except AssertionError:
-            print("FAIL: First pillar node missing role=img")
+            # Check role
+            role = node.get_attribute("role")
+            print(f"  role: {role}")
+            if role != "img":
+                 print("  FAIL: role is missing or incorrect")
 
-        # Check aria-label presence
-        val = first_pillar.get_attribute("aria-label")
-        if val:
-            print(f"PASS: First pillar node has aria-label='{val}'")
-        else:
-            print("FAIL: First pillar node missing aria-label")
+            # Check aria-label
+            aria_label = node.get_attribute("aria-label")
+            print(f"  aria-label: {aria_label}")
+            if not aria_label:
+                 print("  FAIL: aria-label is missing")
 
-        # Test Focusability
-        print("Testing Focusability...")
-        try:
-            first_pillar.focus()
-            expect(first_pillar).to_be_focused()
-            print("PASS: First pillar is focusable")
-        except Exception as e:
-            print(f"FAIL: First pillar is not focusable: {e}")
+        # Check interaction (focus state)
+        # We pick the first pillar node (not center) to test hover/focus style
+        # The center node is usually first or last depending on DOM order.
+        # pillars are appended to container. Center is re-inserted.
+        # Let's just try to focus the second node (index 1) which should be a pillar
+        target_node = nodes[1]
+        target_node.focus()
+
+        # Check if it is focused
+        is_focused = target_node.evaluate("el => document.activeElement === el")
+        print(f"Node 1 is focused: {is_focused}")
+
+        # Take screenshot of the hub
+        screenshot_path = os.path.join(base_dir, "verification/hub_verification.png")
+        page.locator("#hub-diagram").screenshot(path=screenshot_path)
+        print(f"Screenshot saved to {screenshot_path}")
+
+        # Assertions
+        for node in nodes:
+            expect(node).to_have_attribute("tabindex", "0")
+            expect(node).to_have_attribute("role", "img")
+            expect(node).to_have_attribute("aria-label", re.compile(r".+"))
 
         browser.close()
 
 if __name__ == "__main__":
+    import re
     verify_hub_ux()
