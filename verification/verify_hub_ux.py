@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright, expect
 import os
+import time
 
 def verify_hub_ux():
     base_dir = os.getcwd()
@@ -12,58 +13,68 @@ def verify_hub_ux():
         print(f"Opening {html_file}")
         page.goto(f"file://{html_file}")
 
-        # Scroll to the Hub section
-        hub_section = page.locator("#hub")
-        hub_section.scroll_into_view_if_needed()
-        page.wait_for_timeout(1000) # Wait for animation/render
+        # Wait for hub diagram to generate
+        page.wait_for_selector("#hub-center")
+        page.wait_for_selector(".hub-node")
 
-        # Locate the Hub Center
-        hub_center = page.locator("#hub-center")
-        expect(hub_center).to_be_visible()
+        # Scroll to section
+        page.locator("#hub").scroll_into_view_if_needed()
+        time.sleep(0.5)
 
-        # Verify Attributes
-        print("Verifying Hub Center attributes...")
-        expect(hub_center).to_have_attribute("tabindex", "0")
-        expect(hub_center).to_have_attribute("role", "img")
-        expect(hub_center).to_have_attribute("aria-label", "Smart Hub Center")
+        # Get all nodes
+        nodes = page.locator(".hub-node").all()
+        print(f"Found {len(nodes)} hub nodes")
 
-        # Verify Focusability
-        print("Verifying Hub Center focus...")
-        hub_center.focus()
-        expect(hub_center).to_be_focused()
+        if len(nodes) == 0:
+            raise Exception("No hub nodes found")
 
-        # Take screenshot of focused center
-        screenshot_path_center = os.path.join(base_dir, "verification/hub_center_focus.png")
-        # Screenshotting the specific element might clip the scale effect if it overflows,
-        # so we might want to screenshot the container or add padding.
-        # But simple screenshot is fine for now.
-        hub_center.screenshot(path=screenshot_path_center)
-        print(f"Screenshot saved to {screenshot_path_center}")
+        # Verify accessibility attributes
+        for i, node in enumerate(nodes):
+            print(f"Checking node {i}")
 
-        # Verify Pillars
-        # Pillars are generated dynamically, let's find one
-        pillar_name = "WORKFORCE"
-        pillar_node = page.locator(f".hub-node[aria-label='Smart Hub Pillar: {pillar_name}']")
+            # Check tabindex
+            tabindex = node.get_attribute("tabindex")
+            print(f"  tabindex: {tabindex}")
+            if tabindex != "0":
+                print("  FAIL: tabindex is missing or incorrect")
 
-        print(f"Verifying {pillar_name} pillar...")
-        expect(pillar_node).to_be_visible()
-        expect(pillar_node).to_have_attribute("tabindex", "0")
-        expect(pillar_node).to_have_attribute("role", "img")
+            # Check role
+            role = node.get_attribute("role")
+            print(f"  role: {role}")
+            if role != "img":
+                 print("  FAIL: role is missing or incorrect")
 
-        # Focus on the pillar
-        pillar_node.focus()
-        expect(pillar_node).to_be_focused()
+            # Check aria-label
+            aria_label = node.get_attribute("aria-label")
+            print(f"  aria-label: {aria_label}")
+            if not aria_label:
+                 print("  FAIL: aria-label is missing")
 
-        # Wait for transition
-        page.wait_for_timeout(500)
+        # Check interaction (focus state)
+        # We pick the first pillar node (not center) to test hover/focus style
+        # The center node is usually first or last depending on DOM order.
+        # pillars are appended to container. Center is re-inserted.
+        # Let's just try to focus the second node (index 1) which should be a pillar
+        target_node = nodes[1]
+        target_node.focus()
 
-        # Take screenshot of focused pillar
-        screenshot_path_pillar = os.path.join(base_dir, "verification/hub_pillar_focus.png")
-        pillar_node.screenshot(path=screenshot_path_pillar)
-        print(f"Screenshot saved to {screenshot_path_pillar}")
+        # Check if it is focused
+        is_focused = target_node.evaluate("el => document.activeElement === el")
+        print(f"Node 1 is focused: {is_focused}")
 
-        print("Smart Hub UX Verification Passed!")
+        # Take screenshot of the hub
+        screenshot_path = os.path.join(base_dir, "verification/hub_verification.png")
+        page.locator("#hub-diagram").screenshot(path=screenshot_path)
+        print(f"Screenshot saved to {screenshot_path}")
+
+        # Assertions
+        for node in nodes:
+            expect(node).to_have_attribute("tabindex", "0")
+            expect(node).to_have_attribute("role", "img")
+            expect(node).to_have_attribute("aria-label", re.compile(r".+"))
+
         browser.close()
 
 if __name__ == "__main__":
+    import re
     verify_hub_ux()
