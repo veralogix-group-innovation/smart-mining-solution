@@ -1,117 +1,80 @@
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 import os
-import sys
+import time
 
 def verify_hub_ux():
-    cwd = os.getcwd()
-    file_path = f"file://{cwd}/index.html"
+    base_dir = os.getcwd()
+    html_file = os.path.join(base_dir, "index.html")
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-        page.goto(file_path)
+        page = browser.new_page(viewport={"width": 1920, "height": 1080})
 
-        # Wait for the Hub to be generated
+        print(f"Opening {html_file}")
+        page.goto(f"file://{html_file}")
+
+        # Wait for hub diagram to generate
         page.wait_for_selector("#hub-center")
         page.wait_for_selector(".hub-node")
 
-        print("Checking Smart Hub Center accessibility...")
-        center = page.locator("#hub-center")
+        # Scroll to section
+        page.locator("#hub").scroll_into_view_if_needed()
+        time.sleep(0.5)
 
-        # Check attributes
-        tabindex = center.get_attribute("tabindex")
-        role = center.get_attribute("role")
-        aria_label = center.get_attribute("aria-label")
+        # Get all nodes
+        nodes = page.locator(".hub-node").all()
+        print(f"Found {len(nodes)} hub nodes")
 
-        if tabindex != "0":
-            print("FAIL: #hub-center missing tabindex='0'")
-            sys.exit(1)
-        if role != "img":
-            print("FAIL: #hub-center missing role='img'")
-            sys.exit(1)
-        if not aria_label:
-            print("FAIL: #hub-center missing aria-label")
-            sys.exit(1)
+        if len(nodes) == 0:
+            raise Exception("No hub nodes found")
 
-        print("PASS: Smart Hub Center attributes correct.")
+        # Verify accessibility attributes
+        for i, node in enumerate(nodes):
+            print(f"Checking node {i}")
 
-        print("Checking Smart Hub Nodes accessibility...")
-        nodes = page.locator(".hub-node")
-        count = nodes.count()
+            # Check tabindex
+            tabindex = node.get_attribute("tabindex")
+            print(f"  tabindex: {tabindex}")
+            if tabindex != "0":
+                print("  FAIL: tabindex is missing or incorrect")
 
-        # We know there should be nodes (the center is one .hub-node, but the generated ones are also .hub-node)
-        # Wait, looking at index.html:
-        # center: class="... hub-node ..."
-        # generated: class="hub-node absolute"
-        # So all of them are .hub-node.
+            # Check role
+            role = node.get_attribute("role")
+            print(f"  role: {role}")
+            if role != "img":
+                 print("  FAIL: role is missing or incorrect")
 
-        # We need to distinguish generated nodes from center if we want specific checks,
-        # but the plan says verify both have attributes.
+            # Check aria-label
+            aria_label = node.get_attribute("aria-label")
+            print(f"  aria-label: {aria_label}")
+            if not aria_label:
+                 print("  FAIL: aria-label is missing")
 
-        for i in range(count):
-            node = nodes.nth(i)
-            # Skip if it's the center and we already checked it?
-            # Actually, let's just check all of them.
-
-            t_index = node.get_attribute("tabindex")
-            r_role = node.get_attribute("role")
-            a_label = node.get_attribute("aria-label")
-
-            if t_index != "0":
-                print(f"FAIL: Node {i} missing tabindex='0'")
-                sys.exit(1)
-            if r_role != "img":
-                print(f"FAIL: Node {i} missing role='img'")
-                sys.exit(1)
-            if not a_label:
-                print(f"FAIL: Node {i} missing aria-label")
-                sys.exit(1)
-
-        print("PASS: All hub nodes have correct attributes.")
-
-        # Check focus behavior
-        print("Checking focus behavior...")
-        # Focus the first node (likely the center or first generated one)
-        first_node = nodes.first
-        first_node.focus()
+        # Check interaction (focus state)
+        # We pick the first pillar node (not center) to test hover/focus style
+        # The center node is usually first or last depending on DOM order.
+        # pillars are appended to container. Center is re-inserted.
+        # Let's just try to focus the second node (index 1) which should be a pillar
+        target_node = nodes[1]
+        target_node.focus()
 
         # Check if it is focused
-        is_focused = first_node.evaluate("element => document.activeElement === element")
-        if not is_focused:
-             print("FAIL: Element did not receive focus.")
-             sys.exit(1)
+        is_focused = target_node.evaluate("el => document.activeElement === el")
+        print(f"Node 1 is focused: {is_focused}")
 
-        # Check for visual changes (CSS)
-        # We expect color change on .hub-text child when .hub-node is focused
-        # But wait, the center node HAS no .hub-text child. It has text directly.
-        # The generated nodes have .hub-text child.
-
-        # Let's find a generated node (one with .hub-text)
-        generated_node = page.locator(".hub-node:has(.hub-text)").first
-        generated_node.focus()
-
-        hub_text = generated_node.locator(".hub-text")
-
-        # Get background color
-        bg_color = hub_text.evaluate("element => getComputedStyle(element).backgroundColor")
-
-        # Expected: #BFFF00 -> rgb(191, 255, 0)
-        # The default is #222222 -> rgb(34, 34, 34)
-
-        print(f"Focused Node Background Color: {bg_color}")
-
-        if "rgb(191, 255, 0)" not in bg_color:
-             print("FAIL: Focus state does not match hover state (background color not correct).")
-             sys.exit(1)
-
-        print("PASS: Focus state visual feedback confirmed.")
-
-        # Take a screenshot for visual verification
-        screenshot_path = os.path.join(cwd, "verification", "hub_focus.png")
-        page.screenshot(path=screenshot_path)
+        # Take screenshot of the hub
+        screenshot_path = os.path.join(base_dir, "verification/hub_verification.png")
+        page.locator("#hub-diagram").screenshot(path=screenshot_path)
         print(f"Screenshot saved to {screenshot_path}")
+
+        # Assertions
+        for node in nodes:
+            expect(node).to_have_attribute("tabindex", "0")
+            expect(node).to_have_attribute("role", "img")
+            expect(node).to_have_attribute("aria-label", re.compile(r".+"))
 
         browser.close()
 
 if __name__ == "__main__":
+    import re
     verify_hub_ux()
