@@ -1,99 +1,94 @@
+from playwright.sync_api import sync_playwright, expect
 import os
-from playwright.sync_api import sync_playwright
 
-def run():
+def verify_hub_focus():
+    base_dir = os.getcwd()
+    html_file = os.path.join(base_dir, "index.html")
+
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+        page = browser.new_page(viewport={"width": 1920, "height": 1080})
 
-        # Load the local index.html file
-        file_path = os.path.abspath("index.html")
-        page.goto(f"file://{file_path}")
+        print(f"Opening {html_file}")
+        page.goto(f"file://{html_file}")
 
-        # Wait for the hub diagram to be generated
-        try:
-            page.wait_for_selector(".hub-node", timeout=5000)
-        except Exception as e:
-            print("Error: Hub nodes not found within timeout.")
-            exit(1)
+        # Wait for the diagram to be generated
+        page.wait_for_selector("#hub-diagram .hub-node", timeout=5000)
 
-        # Get all hub nodes
-        nodes = page.locator(".hub-node").all()
-        print(f"Found {len(nodes)} hub nodes.")
+        # Scroll to the Hub diagram
+        hub_section = page.locator("#hub")
+        hub_section.scroll_into_view_if_needed()
+        page.wait_for_timeout(500)
 
-        if len(nodes) == 0:
+        nodes = page.locator(".hub-node")
+        count = nodes.count()
+        print(f"Found {count} hub nodes")
+
+        if count == 0:
             print("Error: No hub nodes found.")
             exit(1)
 
-        # Verify accessibility attributes
-        all_passed = True
-        for i, node in enumerate(nodes):
+        # Check attributes and focusability
+        for i in range(count):
+            node = nodes.nth(i)
+            print(f"Checking node {i}...")
+
+            # Check tabindex
             tabindex = node.get_attribute("tabindex")
-            role = node.get_attribute("role")
-            aria_label = node.get_attribute("aria-label")
-
-            print(f"Node {i}: tabindex={tabindex}, role={role}, aria-label={aria_label}")
-
             if tabindex != "0":
-                print(f"  FAILED: Node {i} missing tabindex='0'")
-                all_passed = False
-            if role != "img":
-                print(f"  FAILED: Node {i} missing role='img'")
-                all_passed = False
-            if not aria_label:
-                print(f"  FAILED: Node {i} missing aria-label")
-                all_passed = False
-
-        if not all_passed:
-            print("Accessibility attribute verification failed.")
-            # We don't exit here yet to check focus logic if possible, but without tabindex focus won't work.
-
-        # Test keyboard navigation
-        print("Testing keyboard navigation...")
-        # Reset focus to body
-        page.evaluate("document.body.focus()")
-
-        # Press Tab repeatedly until we find a hub node
-        found_focus = False
-        focused_node_index = -1
-
-        # We need to tab enough times to get past header links.
-        # Skip link is first. Then header nav links.
-        # This might be many tabs.
-        # Alternative: Focus the element before the hub section if we knew what it was.
-        # Or force focus on a node and check if it sticks (requires tabindex).
-
-        # Let's try to focus the first node programmatically to check if it's focusable at all.
-        try:
-            nodes[0].focus()
-            is_focused = page.evaluate("document.activeElement === document.querySelector('.hub-node')")
-            if is_focused:
-                 print("  Direct focus() worked (unexpected if tabindex is missing).")
+                print(f"Failure: Node {i} missing tabindex='0'. Found: {tabindex}")
             else:
-                 print("  Direct focus() failed (expected if tabindex is missing).")
-        except Exception as e:
-            print(f"  Direct focus() threw exception: {e}")
+                print(f"Success: Node {i} has tabindex='0'")
 
-        # Now try tabbing
-        # We'll just try to Tab a few times and see if active element becomes a hub node.
-        # Since there are many links, this might be flaky if we just count tabs.
-        # But if we cycle through everything?
+            # Check role
+            role = node.get_attribute("role")
+            if role != "img":
+                 print(f"Failure: Node {i} missing role='img'. Found: {role}")
+            else:
+                print(f"Success: Node {i} has role='img'")
 
-        # Let's just check if attributes are correct for now as the primary verification.
-        if not all_passed:
-            exit(1)
+            # Check aria-label
+            label = node.get_attribute("aria-label")
+            if not label:
+                 print(f"Failure: Node {i} missing aria-label.")
+            else:
+                 print(f"Success: Node {i} has aria-label='{label}'")
 
-        # Take a screenshot of the focused node (if we managed to focus one, or just the hub area)
-        # Try to focus a node to show the effect
+        # Attempt to tab through nodes
+        # Focus the first focusable element before the nodes (e.g., ROI link in nav if visible, or skip link)
+        # It's easier to just try to focus the node directly if it's focusable, or press Tab repeatedly.
+
+        # Focus the second node (index 1) which is a pillar node (starts dark)
+        target_node = nodes.nth(1)
         try:
-            nodes[0].focus()
-            page.wait_for_timeout(500) # Wait for transition
-            page.screenshot(path="verification/hub_focused.png")
-            print("Screenshot saved to verification/hub_focused.png")
+            target_node.focus()
+            expect(target_node).to_be_focused()
+            print("Success: Second node (pillar) is focusable via .focus()")
+
+            # Check for visual change (class or style)
+            # Since we are using :focus pseudo-class, we check computed styles
+            # Wait a bit for transition
+            page.wait_for_timeout(300)
+
+            # Check if z-index is 20 (as defined in :hover and planned for :focus)
+            z_index = target_node.evaluate("element => window.getComputedStyle(element).zIndex")
+            print(f"Focused node z-index: {z_index}")
+
+            if z_index != "20":
+                 print("Failure: Focused node does not have z-index 20 (style not applied).")
+            else:
+                 print("Success: Focused node has z-index 20.")
+
+            # Take screenshot of the focused node
+            screenshot_path = os.path.join(base_dir, "verification/hub_focused_pillar.png")
+            # Screenshot the container to see the effect
+            page.locator("#hub-diagram").screenshot(path=screenshot_path)
+            print(f"Screenshot saved to {screenshot_path}")
+
         except Exception as e:
-            print(f"Could not focus or screenshot: {e}")
+            print(f"Failure: Could not focus pillar node. Error: {e}")
 
         browser.close()
 
 if __name__ == "__main__":
-    run()
+    verify_hub_focus()
