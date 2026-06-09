@@ -59,7 +59,7 @@
         }
         .hub-node {
             transition: all 0.3s ease-in-out;
-            cursor: default;
+            cursor: pointer;
         }
         .hub-node:hover,
         .hub-node:focus-visible {
@@ -75,6 +75,21 @@
         }
         .hub-node:focus-visible .hub-text {
             box-shadow: 0 0 0 2px #1A1A1A, 0 0 0 4px #BFFF00;
+        }
+        .hub-node:focus-visible .hub-text {
+            box-shadow: 0 0 0 2px #1A1A1A, 0 0 0 4px #BFFF00;
+        }
+        #hub-center:focus-visible {
+            box-shadow: 0 0 0 2px #1A1A1A, 0 0 0 4px #FFFFFF;
+        }
+        .hub-node:focus-visible .hub-text {
+            background-color: #BFFF00 !important;
+            color: #1A1A1A !important;
+            border-color: #BFFF00 !important;
+            box-shadow: 0 0 0 2px #1A1A1A, 0 0 0 4px #BFFF00;
+        }
+        .hub-node:focus .hub-text, #hub-center:focus {
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);
         }
         .hub-line {
             position: absolute;
@@ -738,6 +753,11 @@
                     node.style.top = `${y}px`;
                     node.innerHTML = `<div class="hub-text bg-[#222222] border-2 border-gray-800 rounded-full w-24 h-24 flex items-center justify-center font-heading text-white text-sm text-center p-2">${pillar}</div>`;
                     
+                    // Accessibility attributes
+                    node.tabIndex = 0;
+                    node.setAttribute('role', 'img');
+                    node.setAttribute('aria-label', pillar + ' Pillar');
+
                     node.style.transform = 'translateX(-50%) translateY(-50%)';
                     container.appendChild(node);
                     

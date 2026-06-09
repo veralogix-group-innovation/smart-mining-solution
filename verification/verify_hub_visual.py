@@ -1,41 +1,36 @@
+from playwright.sync_api import sync_playwright, expect
 import os
-import asyncio
-from playwright.async_api import async_playwright, expect
 
-async def verify_hub_visual():
-    async with async_playwright() as p:
-        browser = await p.chromium.launch()
-        page = await browser.new_page()
+def verify_hub_accessibility_visual():
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+        # Load the local index.html file
+        page.goto(f"file://{os.path.abspath('index.html')}")
 
-        # Load local index.html
-        cwd = os.getcwd()
-        url = f"file://{cwd}/index.html"
-        print(f"Loading {url}")
-        await page.goto(url)
+        # Wait for the hub diagram to be generated
+        page.wait_for_selector("#hub-diagram .hub-node", state="attached")
 
-        # Wait for hub nodes to be generated
-        await page.wait_for_selector(".hub-node")
+        # Locate the first hub node (not the center one, one of the pillars)
+        # The center one is also a hub-node but has ID hub-center.
+        # The generated ones don't have IDs.
 
-        # Locate the first hub node (should be WORKFORCE or similar)
-        # Using get_by_label as we added aria-labels
-        node = page.locator(".hub-node").first
+        # Let's focus on the "SAFETY" pillar node.
+        safety_node = page.get_by_label("SAFETY Pillar")
 
-        # Scroll to view
-        await node.scroll_into_view_if_needed()
+        # Focus it
+        safety_node.focus()
 
-        # Focus the node
-        await node.focus()
+        # Expect it to be focused
+        expect(safety_node).to_be_focused()
 
-        # Wait a bit for transitions
-        await page.wait_for_timeout(500)
-
-        # Take screenshot of the hub diagram area
+        # Take a screenshot of the hub diagram area
         hub_diagram = page.locator("#hub-diagram")
-        screenshot_path = "verification/hub_focus_state.png"
-        await hub_diagram.screenshot(path=screenshot_path)
-        print(f"Screenshot saved to {screenshot_path}")
+        hub_diagram.screenshot(path="verification/hub_focus_state.png")
 
-        await browser.close()
+        print("Screenshot saved to verification/hub_focus_state.png")
+
+        browser.close()
 
 if __name__ == "__main__":
-    asyncio.run(verify_hub_visual())
+    verify_hub_accessibility_visual()
