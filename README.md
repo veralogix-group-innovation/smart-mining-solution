@@ -3,7 +3,7 @@
 
 <a href="https://freeimage.host/"><img src="https://iili.io/KUXIxzQ.png" alt="KUXIxzQ.png" border="0" /></a>
 
-**🎯 [LIVE DEMO →](https://veralogix-group-innovation.github.io/smart-mining-solution/)**
+**🎯 [PRESENTATION →](https://veralogix-group-innovation.github.io/smart-mining-solution/)**
 
 ---
 
